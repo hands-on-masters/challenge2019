@@ -26,8 +26,11 @@ namespace kryon_graphology_challenge
             //                       \______/                     
 
             // TODO: STAGE 1 - read and understand what this code is suppose to do //
-            string[] paths = { "demo-image-1.jpeg" };
+            //there are several files needs to be analyzed and were missing from the below array
+            string[] paths = { "demo-image-1.jpeg","demo-image-2.jpeg","demo-image-3.jpeg","demo-image-4.jpeg","demo-image-5.jpeg" };
 
+            Console.WriteLine("\nApp Purpose : Images Hand Writing Recogntion");
+            
             foreach (string path in paths) {
                 Console.WriteLine("\nReading challenge file " + path + "...\n");
                 var process = HandwritingAnalyzer.ReadHandwrittenText("./Image-files/" + path);
@@ -37,12 +40,24 @@ namespace kryon_graphology_challenge
                 // WANT TO ANALYZE HUGE AMOUNTS OF TEXT 
                 // AND UTILIZE IT TO PARTICIPATE THE NEXT
                 // INDUSTRIAL REVOLUTION? 
-                Console.WriteLine(result.ToString());
+                
+                 //print only the text rather than the whole JSON payload of the hand writing recognition service
+                 var results = result["recognitionResults"]
+                    .SelectMany(entry => entry["lines"])
+                    .SelectMany(line => line["text"].ToString() + " ")
+                    .ToArray();
+                                                    
+                Console.WriteLine(results);
+                
+                //Console.WriteLine(result.ToString());
             }
 
             // TODO: STAGE 3 - find the connections between the outputs above //
             Console.WriteLine("\nCan you find the connection between the outputs above?");
 
+            // a printed connection
+            Console.WriteLine("\nDefinetly - 18 Century US & Russian Leaders / Emperors");
+            
             // TODO: STAGE 4 - submit your answers, repo and CV, and join us for a cup of coffee //
             Console.WriteLine("\nSend us your solution with the github repo and your CV to challenge@kryonsystems.com and wait for our call!\n");
             Console.ReadLine();
